@@ -20,5 +20,11 @@ pub enum BetError {
     #[msg("Bet is not active anymore!")]
     BetClosed,
     #[msg("Bet is still in progress")]
-    BetInProgress
+    BetInProgress,
+    #[msg("Bet duration is over it is in resolve phase!")]
+    BetInResolve,
+    #[msg("Sorry to say but next time comeback!")]
+    NotWinner,
+    #[msg("already claimed the amount")]
+    WinnerClaimed
 }

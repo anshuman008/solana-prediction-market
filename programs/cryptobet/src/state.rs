@@ -23,3 +23,15 @@ pub struct  BetState {
  pub betfees: u16,
  pub seed: u16
 }
+
+
+#[derive(InitSpace)]
+#[account(discriminator = 1)]
+pub struct UserClaim {
+    pub user: Pubkey,           // Who owns this claim
+    pub bet_market: Pubkey,     // Which market this is for
+    pub claimed: bool,          // Has user claimed yet?
+    pub amount: u64,            // How much they can claim
+    pub claim_timestamp: i64,   // When they claimed
+    pub bump: u8,               // PDA bump
+}

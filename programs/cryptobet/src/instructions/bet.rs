@@ -32,6 +32,17 @@ pub struct BetStruct<'info> {
 
 impl<'info> BetStruct<'info> {
     pub fn bet(&mut self, bet: u8) -> Result<()> {
+
+        
+        require!(self.bet_state.is_active == true,BetError::BetClosed);
+
+       let clock = Clock::get()?;
+       let current_time = clock.unix_timestamp as u64;
+
+       let duration_passed = current_time - self.bet_state.start_duration;
+
+       require!(duration_passed <= self.bet_state.bet_duration,BetError::BetInResolve);
+
         require!(
             self.signer.lamports() > self.bet_state.bet_price,
             BetError::InvalidAmount
