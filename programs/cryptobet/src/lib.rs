@@ -1,12 +1,14 @@
 use anchor_lang::prelude::*;
 mod instructions;
+use instructions::*;
 mod state;
+
 mod error;
+use error::*;
 declare_id!("3m1GV4daBTk89EESQWsgEqfUfuiknDqbpp1VjwJu9Vxh");
 
 #[program]
 pub mod cryptobet {
-    use crate::instructions::{bethandlder, claimhandler, create::{createhandler, CreateStruct}, resolvehandler, BetStruct, ClaimStruct, ResolveStruct};
 
     use super::*;
 
@@ -19,7 +21,7 @@ pub mod cryptobet {
 
     pub fn bet(ctx:Context<BetStruct>, bet:u8) -> Result<()> {
         
-        require!( bet == 0 || bet == 1 , error::InvalidOption);
+        require!( bet == 0 || bet == 1 , BetError::InvalidBet);
 
         bethandlder(ctx, bet)?;
 

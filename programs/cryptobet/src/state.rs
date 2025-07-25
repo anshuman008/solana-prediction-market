@@ -26,7 +26,7 @@ pub struct  BetState {
 
 
 #[derive(InitSpace)]
-#[account(discriminator = 1)]
+#[account(discriminator = 2)]
 pub struct UserClaim {
     pub user: Pubkey,           // Who owns this claim
     pub bet_market: Pubkey,     // Which market this is for
