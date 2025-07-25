@@ -38,7 +38,7 @@ pub struct CreateStruct <'info> {
 impl <'info> CreateStruct <'info> {
     
 
-    pub fn initialize(&mut self,seed:u16,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16 ,state_bump:u8,pool_bimp:u8 ) -> Result<()>{
+    pub fn initialize(&mut self,seed:u16,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16 ,state_bump:u8,pool_bump:u8 ) -> Result<()>{
 
          let clock = Clock::get()?;
          let current_time = clock.unix_timestamp as u64;
@@ -73,7 +73,7 @@ impl <'info> CreateStruct <'info> {
              bet_duration: bet_duration, 
              total_transactions: 0, 
              state_bump: state_bump, 
-             pool_bump: pool_bimp, 
+             pool_bump: pool_bump, 
              betfees: betfees,
              seed: seed 
             });
@@ -83,4 +83,11 @@ impl <'info> CreateStruct <'info> {
     }
 
 
+}
+
+
+pub fn createhandler(ctx:Context<CreateStruct>,seed:u16,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16 ) -> Result<()>{
+     ctx.accounts.initialize(seed, crypto_target_price, bet_price, bet_duration, betfees, ctx.bumps.bet_state, ctx.bumps.pool_account,)?;
+
+     Ok(())
 }

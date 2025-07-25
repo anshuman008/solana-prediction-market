@@ -4,8 +4,6 @@ use crate::{error::BetError, state::BetState, state::UserClaim};
 
 
 
-
-
 #[derive(Accounts)]
 pub struct ClaimStruct <'info>{
 
@@ -113,3 +111,9 @@ impl <'info> ClaimStruct <'info> {
 }
 
 
+
+ pub fn claimhandler(ctx:Context<ClaimStruct>) -> Result<()>{
+       ctx.accounts.claim_winnings(ctx.bumps.claim_account)?;
+
+       Ok(())
+ }

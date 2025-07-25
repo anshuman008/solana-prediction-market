@@ -96,3 +96,10 @@ impl<'info> BetStruct<'info> {
         Ok(())
     }
 }
+
+
+pub fn bethandlder(ctx:Context<BetStruct>, bet:u8) -> Result<()>{
+      ctx.accounts.bet(bet)?;
+
+      Ok(())
+}

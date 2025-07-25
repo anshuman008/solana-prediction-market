@@ -69,3 +69,11 @@ impl <'info> ResolveStruct <'info> {
          Ok(())
      }
 }
+
+
+
+  pub fn resolvehandler(ctx:Context<ResolveStruct>) -> Result<()>{
+     ctx.accounts.resolve()?;
+
+     Ok(())
+  }

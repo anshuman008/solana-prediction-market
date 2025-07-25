@@ -26,5 +26,7 @@ pub enum BetError {
     #[msg("Sorry to say but next time comeback!")]
     NotWinner,
     #[msg("already claimed the amount")]
-    WinnerClaimed
+    WinnerClaimed,
+    #[msg("Invalid bet option")]
+    InvalidOption
 }
