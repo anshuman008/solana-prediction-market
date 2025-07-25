@@ -16,9 +16,7 @@ pub struct ResolveStruct<'info> {
     pub creator: SystemAccount<'info>,
 
     #[account(
-        init,
-        payer = signer,
-        space = BetState::INIT_SPACE + BetState::DISCRIMINATOR.len(),
+        mut,
         seeds = [b"bet_state", creator.key().as_ref(),bet_state.seed.to_le_bytes().as_ref()],
         bump
      )]

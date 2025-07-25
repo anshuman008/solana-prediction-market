@@ -30,6 +30,7 @@ pub struct ClaimStruct <'info>{
    )]
     pub pool_account: SystemAccount<'info>,
 
+
     #[account(
         init,
         payer = signer,
@@ -44,7 +45,7 @@ pub struct ClaimStruct <'info>{
     pub claim_account:Account<'info,UserClaim>,
 
     // programs
-    pub sytem_account: Program<'info, System>,
+    pub system_program: Program<'info, System>,
 }
 
 
@@ -94,7 +95,7 @@ impl <'info> ClaimStruct <'info> {
 
         transfer(
             CpiContext::new_with_signer(
-                self.sytem_account.to_account_info(),
+                self.system_program.to_account_info(),
                  Transfer { 
                      from: self.pool_account.to_account_info(),
                      to: self.signer.to_account_info() 
