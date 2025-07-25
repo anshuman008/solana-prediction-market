@@ -16,5 +16,9 @@ pub enum BetError {
     #[msg("Not have sufficent balance to bet")]
     InvalidAmount,
     #[msg("total no of transaction overflow")]
-    ArithmeticError
+    ArithmeticError,
+    #[msg("Bet is not active anymore!")]
+    BetClosed,
+    #[msg("Bet is still in progress")]
+    BetInProgress
 }

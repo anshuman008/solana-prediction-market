@@ -13,11 +13,13 @@ pub struct  BetState {
  pub yes_voters: Vec<Pubkey>,
  #[max_len(100)]
  pub no_voters: Vec<Pubkey>,
+ pub is_active: bool,
+ pub winner_side: i8,
  pub start_duration: u64,
  pub bet_duration: u64, 
  pub total_transactions: u16,
  pub state_bump: u8,
- pub pool_bimp: u8,
+ pub pool_bump: u8,
  pub betfees: u16,
  pub seed: u16
 }

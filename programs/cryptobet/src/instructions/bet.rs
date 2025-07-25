@@ -22,7 +22,7 @@ pub struct BetStruct<'info> {
     #[account(
     mut,
     seeds = [b"pool_account", creator.key().as_ref(),bet_state.seed.to_le_bytes().as_ref()],
-    bump = bet_state.pool_bimp
+    bump = bet_state.pool_bump
    )]
     pub pool_account: SystemAccount<'info>,
 

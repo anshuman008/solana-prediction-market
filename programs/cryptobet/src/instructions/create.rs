@@ -1,7 +1,6 @@
 use anchor_lang::prelude::*;
 use crate::state::BetState;
 use pyth_solana_receiver_sdk::price_update::{get_feed_id_from_hex, PriceUpdateV2};
-const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
 use crate::error::BetError;
 
 
@@ -67,12 +66,14 @@ impl <'info> CreateStruct <'info> {
              crypto_start_price: crypto_start_price,
              crypto_traget_price: crypto_target_price,
              yes_voters: [].to_vec(),
+             is_active: true,
+             winner_side: -1,
              no_voters: [].to_vec(), 
              start_duration: current_time,
              bet_duration: bet_duration, 
              total_transactions: 0, 
              state_bump: state_bump, 
-             pool_bimp: pool_bimp, 
+             pool_bump: pool_bimp, 
              betfees: betfees,
              seed: seed 
             });
