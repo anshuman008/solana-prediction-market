@@ -6,7 +6,7 @@ use anchor_lang::prelude::*;
 #[account(discriminator = 1)]
 pub struct  BetState {
  pub creator: Pubkey,
- pub bet_price: u16,
+ pub bet_price: u64,
  pub crypto_start_price: u64,
  pub crypto_traget_price: u64,
  #[max_len(100)] 
@@ -18,5 +18,6 @@ pub struct  BetState {
  pub total_transactions: u16,
  pub state_bump: u8,
  pub pool_bimp: u8,
+ pub betfees: u16,
  pub seed: u16
 }

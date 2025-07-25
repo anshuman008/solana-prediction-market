@@ -10,5 +10,11 @@ pub enum BetError {
     #[msg("Invaild target price")]
     InvalidTarget,
     #[msg("Bet starting price is not valid!")]
-    InvalidBet
+    InvalidBet,
+    #[msg("Inavild creator game state")]
+    InvaildCreator,
+    #[msg("Not have sufficent balance to bet")]
+    InvalidAmount,
+    #[msg("total no of transaction overflow")]
+    ArithmeticError
 }

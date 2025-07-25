@@ -39,7 +39,7 @@ pub struct CreateStruct <'info> {
 impl <'info> CreateStruct <'info> {
     
 
-    pub fn initialize(&mut self,seed:u16,crypto_target_price:u64, bet_price:u16,bet_duration:u64,state_bump:u8,pool_bimp:u8 ) -> Result<()>{
+    pub fn initialize(&mut self,seed:u16,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16 ,state_bump:u8,pool_bimp:u8 ) -> Result<()>{
 
          let clock = Clock::get()?;
          let current_time = clock.unix_timestamp as u64;
@@ -73,6 +73,7 @@ impl <'info> CreateStruct <'info> {
              total_transactions: 0, 
              state_bump: state_bump, 
              pool_bimp: pool_bimp, 
+             betfees: betfees,
              seed: seed 
             });
 
