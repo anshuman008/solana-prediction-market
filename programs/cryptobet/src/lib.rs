@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 mod instructions;
 mod state;
+mod error;
 declare_id!("3m1GV4daBTk89EESQWsgEqfUfuiknDqbpp1VjwJu9Vxh");
 
 #[program]
