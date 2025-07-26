@@ -12,7 +12,7 @@ pub mod cryptobet {
 
     use super::*;
 
-    pub fn initialize(ctx: Context<CreateStruct>,seed:u16,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16  ) -> Result<()> {
+    pub fn initialize(ctx: Context<CreateStruct>,seed:u64,crypto_target_price:u64, bet_price:u64,bet_duration:u64,betfees:u16  ) -> Result<()> {
       createhandler(ctx, seed, crypto_target_price, bet_price, bet_duration, betfees)?;
 
       Ok(())

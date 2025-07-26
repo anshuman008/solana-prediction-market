@@ -9,6 +9,7 @@
     "@coral-xyz/anchor": "^0.31.1",
     "@pythnetwork/pyth-solana-receiver": "^0.10.2",
     "@solana/web3.js": "^1.98.2",
+    "dotenv": "^17.2.1",
     "rpc-websockets": "7.6.2"
   },
   "devDependencies": {

@@ -34,7 +34,12 @@ impl<'info> BetStruct<'info> {
     pub fn bet(&mut self, bet: u8) -> Result<()> {
 
         
-        require!(self.bet_state.is_active == true,BetError::BetClosed);
+       require!(self.bet_state.is_active == true,BetError::BetClosed);
+
+       let is_user_voted = self.bet_state.yes_voters.contains(&self.signer.key()) || self.bet_state.no_voters.contains(&self.signer.key());
+       require!(!is_user_voted , BetError::BetAgainError);
+
+
 
        let clock = Clock::get()?;
        let current_time = clock.unix_timestamp as u64;
@@ -69,6 +74,8 @@ impl<'info> BetStruct<'info> {
             .total_transactions
             .checked_add(1)
             .ok_or(BetError::ArithmeticError)?;
+
+        self.bet_state.total_transactions += 1;
 
         let game_fees: u64 = self
             .bet_state

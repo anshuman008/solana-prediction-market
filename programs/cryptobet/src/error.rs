@@ -28,5 +28,7 @@ pub enum BetError {
     #[msg("already claimed the amount")]
     WinnerClaimed,
     #[msg("Invalid bet option")]
-    InvalidOption
+    InvalidOption,
+    #[msg("You can not bet more then ones!")]
+    BetAgainError
 }

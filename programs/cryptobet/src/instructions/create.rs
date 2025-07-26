@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 use pyth_solana_receiver_sdk::price_update::{get_feed_id_from_hex, PriceUpdateV2};
 
 #[derive(Accounts)]
-#[instruction(seed:u16)]
+#[instruction(seed:u64)]
 pub struct CreateStruct<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
@@ -33,7 +33,7 @@ pub struct CreateStruct<'info> {
 impl<'info> CreateStruct<'info> {
     pub fn initialize(
         &mut self,
-        seed: u16,
+        seed: u64,
         crypto_target_price: u64,
         bet_price: u64,
         bet_duration: u64,
@@ -49,7 +49,12 @@ impl<'info> CreateStruct<'info> {
         require!(bet_price > 0, BetError::InvalidBet);
 
         let price_update = &mut self.pyth_price_feed;
-        let maximum_age: u64 = 30;
+        // let maximum_age: u64 = 30;
+
+
+        // for testing
+        let maximum_age: u64 = 3600; // 1 hour
+
 
         // btc/usd
         let feed_id: [u8; 32] = get_feed_id_from_hex(
@@ -91,7 +96,7 @@ impl<'info> CreateStruct<'info> {
 
 pub fn createhandler(
     ctx: Context<CreateStruct>,
-    seed: u16,
+    seed: u64,
     crypto_target_price: u64,
     bet_price: u64,
     bet_duration: u64,

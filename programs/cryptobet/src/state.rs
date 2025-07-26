@@ -5,6 +5,7 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace)]
 #[account(discriminator = 1)]
 pub struct  BetState {
+ pub seed: u64,
  pub creator: Pubkey,
  pub bet_price: u64,
  pub crypto_start_price: u64,
@@ -21,7 +22,6 @@ pub struct  BetState {
  pub state_bump: u8,
  pub pool_bump: u8,
  pub betfees: u16,
- pub seed: u16
 }
 
 

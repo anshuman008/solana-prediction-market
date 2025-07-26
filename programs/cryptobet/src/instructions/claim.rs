@@ -52,6 +52,7 @@ impl <'info> ClaimStruct <'info> {
 
     pub fn claim_winnings(&mut self, claim_bump:u8) -> Result<()> {
          
+
          require!(self.bet_state.is_active == false, BetError::BetInProgress);
          require!(self.bet_state.winner_side != -1,BetError::BetInProgress);
 

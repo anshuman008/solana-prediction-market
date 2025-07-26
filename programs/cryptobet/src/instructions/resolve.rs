@@ -44,7 +44,7 @@ impl <'info> ResolveStruct <'info> {
  
        
         let price_update = &mut self.pyth_price_feed;
-        let maximum_age: u64 = 30;
+        let maximum_age: u64 = 3600;
 
           // btc/usd
         let feed_id: [u8; 32] = get_feed_id_from_hex("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43")?;
