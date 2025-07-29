@@ -28,7 +28,7 @@ pub struct  BetState {
 #[account(discriminator = 2)]
 pub struct UserClaim {
     pub user: Pubkey,
-    pub bet_side: u8,           // Who owns this claim
+    pub bet_side: u8,           
     pub bet_market: Pubkey,     // Which market this is for
     pub claimed: bool,          // Has user claimed yet?
     pub amount: u64,            // How much they can claim

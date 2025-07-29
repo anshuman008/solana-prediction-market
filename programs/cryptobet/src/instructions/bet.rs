@@ -93,20 +93,18 @@ impl<'info> BetStruct<'info> {
 
 
         if bet == 0 {
-            self.bet_state.no_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
+           self.bet_state.no_voters = self.bet_state.no_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
         }
         else{
-            self.bet_state.yes_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
+            self.bet_state.yes_voters = self.bet_state.yes_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
         }
 
-        
 
-        self.bet_state
+        self.bet_state.total_transactions = self.bet_state
             .total_transactions
             .checked_add(1)
             .ok_or(BetError::ArithmeticError)?;
 
-        self.bet_state.total_transactions += 1;
 
         let game_fees: u64 = self
             .bet_state
@@ -114,7 +112,7 @@ impl<'info> BetStruct<'info> {
             .try_into()
             .map_err(|_| BetError::ArithmeticError)?;
 
-        let fees = game_fees
+        let fees: u64 = game_fees
             .checked_mul(self.bet_state.bet_price)
             .ok_or(BetError::ArithmeticError)?
             .checked_div(10000)
@@ -141,8 +139,9 @@ impl<'info> BetStruct<'info> {
             fees,
         )?;
 
-        self.bet_state.pool_balance.checked_add(self.bet_state.bet_price-fees).ok_or(BetError::ArithmeticError)?;
-
+     self.bet_state.pool_balance = self.bet_state.pool_balance
+       .checked_add(self.bet_state.bet_price.checked_sub(fees).ok_or(BetError::ArithmeticError)?)
+       .ok_or(BetError::ArithmeticError)?;
 
         Ok(())
     }

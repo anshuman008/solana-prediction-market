@@ -29,7 +29,7 @@ describe("cryptobet", async() => {
   console.log(solUsdPriceFeedAccount);
 
     const signer = provider.publicKey;
-    const seed = new anchor.BN(1921); 
+    const seed = new anchor.BN(1231); 
 
     const user1 = Keypair.fromSecretKey(bs58.decode(process.env.USER1_KEY!));
     const user2 = Keypair.fromSecretKey(bs58.decode(process.env.USER2_KEY!));
@@ -125,6 +125,10 @@ describe("cryptobet", async() => {
 
   xit("should bet on NO", async() => {
 
+      const claim_seeds = [Buffer.from("claim"), user1.publicKey.toBuffer(),state_account.toBuffer()];
+      const user_claim_account = PublicKey.findProgramAddressSync(claim_seeds,program.programId);
+
+
       const tx = await program.methods.bet(0)
       .accounts(
   {
@@ -133,6 +137,7 @@ describe("cryptobet", async() => {
         creator:signer,
         betState: state_account,
         poolAccount: pool_account,
+        claimState:user_claim_account,
         systemProgram: system_program
   }
       )
@@ -146,6 +151,9 @@ describe("cryptobet", async() => {
 
   xit("shoud bet on  Yess", async() => {
 
+       const claim_seeds = [Buffer.from("claim"), user2.publicKey.toBuffer(),state_account.toBuffer()];
+      const user_claim_account = PublicKey.findProgramAddressSync(claim_seeds,program.programId);
+
       const tx = await program.methods.bet(1)
       .accounts(
   {
@@ -154,6 +162,7 @@ describe("cryptobet", async() => {
         creator:signer,
         betState: state_account,
         poolAccount: pool_account,
+        claimState:user_claim_account,
         systemProgram: system_program
   }
       )
@@ -167,6 +176,10 @@ describe("cryptobet", async() => {
 
   xit("should bet on  Yess too", async() => {
 
+
+           const claim_seeds = [Buffer.from("claim"), user3.publicKey.toBuffer(),state_account.toBuffer()];
+      const user_claim_account = PublicKey.findProgramAddressSync(claim_seeds,program.programId);
+
       const tx = await program.methods.bet(1)
       .accounts(
   {
@@ -175,6 +188,7 @@ describe("cryptobet", async() => {
         creator:signer,
         betState: state_account,
         poolAccount: pool_account,
+        claimState:user_claim_account,
         systemProgram: system_program
   }
       )
@@ -187,11 +201,10 @@ describe("cryptobet", async() => {
   })
 
  
-  xit("should fetch the state data",  async() => {
+  it("should fetch the state data",  async() => {
 
       // const user_pda_seed = [Buffer.from("claim"),user3.publicKey.toBuffer(),state_account.toBuffer()];
        
-
       const user_pda = PublicKey.findProgramAddressSync(
       state_seed,
       program.programId
@@ -200,7 +213,7 @@ describe("cryptobet", async() => {
 
 
 
-    const args = await program.account.betState.fetch(user_pda);
+    const args = await program.account.userClaim.fetch("7RNEenPCDm6AkjLaoTaZs6sP4ofMifZc1xerKVdpL7vN");
 
 
     //@ts-ignore
@@ -278,7 +291,7 @@ describe("cryptobet", async() => {
      }
   })
 
-  it("norma test", async() => {
+  xit("norma test", async() => {
 
 
     const programId = new PublicKey("Ahb2NPqt6wqcLJydV2asqydAuctHPAFhUskXDzYSF61x");
