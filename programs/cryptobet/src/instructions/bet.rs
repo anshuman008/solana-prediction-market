@@ -32,9 +32,13 @@ pub struct BetStruct<'info> {
         init,
         payer = signer,
         space = UserClaim::INIT_SPACE + UserClaim::DISCRIMINATOR.len(),
-        seeds = [b"claim",pool_account.key().as_ref(),signer.key().as_ref()],
-        bump
-    )]
+        seeds = [
+            b"claim",
+            signer.key.as_ref(),
+            bet_state.key().as_ref(),
+            ],
+            bump
+    )]        
     pub claim_state: Account<'info, UserClaim>,
 
     // programs
@@ -43,10 +47,11 @@ pub struct BetStruct<'info> {
 
 impl<'info> BetStruct<'info> {
 
-    pub fn claiminitialize(&mut self, bump: u8) -> Result<()> {
+    pub fn claiminitialize(&mut self, bump: u8,bet:u8) -> Result<()> {
 
         self.claim_state.set_inner(UserClaim {
             user: self.signer.key(),
+            bet_side: bet,
             bet_market: self.bet_state.key(),
             claimed: false,
             amount: 0,
@@ -85,6 +90,16 @@ impl<'info> BetStruct<'info> {
             ),
             self.bet_state.bet_price,
         )?;
+
+
+        if bet == 0 {
+            self.bet_state.no_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
+        }
+        else{
+            self.bet_state.yes_voters.checked_add(1).ok_or(BetError::ArithmeticError)?;
+        }
+
+        
 
         self.bet_state
             .total_transactions
@@ -125,6 +140,9 @@ impl<'info> BetStruct<'info> {
             ),
             fees,
         )?;
+
+        self.bet_state.pool_balance.checked_add(self.bet_state.bet_price-fees).ok_or(BetError::ArithmeticError)?;
+
 
         Ok(())
     }
