@@ -5,7 +5,7 @@ mod state;
 
 mod error;
 use error::*;
-declare_id!("3m1GV4daBTk89EESQWsgEqfUfuiknDqbpp1VjwJu9Vxh");
+declare_id!("AM45W68onndPWeuNWY4BDw9vHzoE9buVCNf8nSMkuVZK");
 
 #[program]
 pub mod cryptobet {

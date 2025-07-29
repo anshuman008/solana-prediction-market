@@ -30,15 +30,13 @@ pub struct ClaimStruct <'info>{
 
 
     #[account(
-        init,
-        payer = signer,
-        space = UserClaim::INIT_SPACE + UserClaim::DISCRIMINATOR.len(),
+        mut,
         seeds = [
             b"claim",
             signer.key.as_ref(),
             bet_state.key().as_ref(),
-            ],
-            bump
+        ],
+        bump = claim_account.bump
     )]
     pub claim_account:Account<'info,UserClaim>,
 
@@ -50,39 +48,31 @@ pub struct ClaimStruct <'info>{
 impl <'info> ClaimStruct <'info> {
     
 
-    pub fn claim_winnings(&mut self, claim_bump:u8) -> Result<()> {
+    pub fn claim_winnings(&mut self) -> Result<()> {
          
 
+        
          require!(self.bet_state.is_active == false, BetError::BetInProgress);
          require!(self.bet_state.winner_side != -1,BetError::BetInProgress);
+         require!(self.claim_account.claimed == false,BetError::WinnerClaimed);
 
-
-       let is_winner = if self.bet_state.winner_side == 1 {
-        self.bet_state.yes_voters.contains(&self.signer.key())
-        } else {
-        self.bet_state.no_voters.contains(&self.signer.key())
-       };
-
+       let is_winner = (self.bet_state.winner_side == 1 && self.claim_account.bet_side == 1) || (self.bet_state.winner_side == 0 && self.claim_account.bet_side == 0);
       require!(is_winner, BetError::NotWinner);
 
 
        let total_winners = if self.bet_state.winner_side == 1 {
-        self.bet_state.yes_voters.len()
+           self.bet_state.yes_voters
         } else {
-        self.bet_state.no_voters.len()
+           self.bet_state.no_voters
        } as u64;
 
-       let user_share =  (self.bet_state.betfees*self.bet_state.total_transactions) as u64 / total_winners;
+       let user_share =   self.bet_state.pool_balance / total_winners;
        
 
-        self.claim_account.user = self.signer.key();
-        self.claim_account.bet_market = self.bet_state.key();
+       
         self.claim_account.claimed = true;
         self.claim_account.amount = user_share;
         self.claim_account.claim_timestamp = Clock::get()?.unix_timestamp;
-        self.claim_account.bump = claim_bump;
-
-        
 
         let signer_seed: &[&[&[u8]]] = &[&[
             b"pool_account",
@@ -114,7 +104,7 @@ impl <'info> ClaimStruct <'info> {
 
 
  pub fn claimhandler(ctx:Context<ClaimStruct>) -> Result<()>{
-       ctx.accounts.claim_winnings(ctx.bumps.claim_account)?;
+       ctx.accounts.claim_winnings()?;
 
        Ok(())
  }

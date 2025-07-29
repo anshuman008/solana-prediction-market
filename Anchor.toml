@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-cryptobet = "3m1GV4daBTk89EESQWsgEqfUfuiknDqbpp1VjwJu9Vxh"
+cryptobet = "AM45W68onndPWeuNWY4BDw9vHzoE9buVCNf8nSMkuVZK"
 
 [registry]
 url = "https://api.apr.dev"
