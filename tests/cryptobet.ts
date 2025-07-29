@@ -29,7 +29,7 @@ describe("cryptobet", async() => {
   console.log(solUsdPriceFeedAccount);
 
     const signer = provider.publicKey;
-    const seed = new anchor.BN(1033); 
+    const seed = new anchor.BN(1921); 
 
     const user1 = Keypair.fromSecretKey(bs58.decode(process.env.USER1_KEY!));
     const user2 = Keypair.fromSecretKey(bs58.decode(process.env.USER2_KEY!));
@@ -74,10 +74,10 @@ describe("cryptobet", async() => {
     console.log("here is system program", system_program.toBase58());
 
     // args
-    const crypto_target_price = new anchor.BN(110000);
+    const crypto_target_price = new anchor.BN(119000);
     const bet_price = new anchor.BN(0.1 * LAMPORTS_PER_SOL);
     const bet_duration = new anchor.BN(600);
-    const betfees = 200;
+    const betfees = 500;
 
     try {
       // Call the createhandler method (based on your Rust function name)
@@ -97,6 +97,7 @@ describe("cryptobet", async() => {
           pythPriceFeed: pyth_price_account,
           systemProgram: system_program,
         })
+        .signers([provider.wallet.payer])
         .rpc();
 
       console.log("Transaction signature:", tx);
@@ -127,7 +128,7 @@ describe("cryptobet", async() => {
       const tx = await program.methods.bet(0)
       .accounts(
   {
-        signer:signer,
+        signer:user1.publicKey,
         //@ts-ignore
         creator:signer,
         betState: state_account,
@@ -135,7 +136,7 @@ describe("cryptobet", async() => {
         systemProgram: system_program
   }
       )
-      .signers([provider.wallet.payer])
+      .signers([user1])
       .rpc()
 
 
@@ -185,7 +186,32 @@ describe("cryptobet", async() => {
 
   })
 
-  xit("should resolve the bet",  async() => {
+ 
+  xit("should fetch the state data",  async() => {
+
+      // const user_pda_seed = [Buffer.from("claim"),user3.publicKey.toBuffer(),state_account.toBuffer()];
+       
+
+      const user_pda = PublicKey.findProgramAddressSync(
+      state_seed,
+      program.programId
+    )[0];
+
+
+
+
+    const args = await program.account.betState.fetch(user_pda);
+
+
+    //@ts-ignore
+    // console.log("claimed amounr: ", args.amount/LAMPORTS_PER_SOL);
+
+    Object.entries(args).map((val) => {
+      console.log(`${val[0]}: ${val[1].toString()}`)
+    })
+  })
+
+  it("should resolve the bet",  async() => {
     try{
         const txs = await program.methods.resolve()
       .accounts(
@@ -208,18 +234,6 @@ describe("cryptobet", async() => {
 
       
   })
-  
-  it("should fetch the state data",  async() => {
-
-    const args = await program.account.betState.fetch(state_account);
-
-    Object.entries(args).map((val) => {
-      console.log(`${val[0]}: ${val[1].toString()}`)
-    })
-  })
-
-
-
 
   xit("should claim the amount", async() => {
      

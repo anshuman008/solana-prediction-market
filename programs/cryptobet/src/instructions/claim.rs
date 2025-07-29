@@ -72,7 +72,7 @@ impl <'info> ClaimStruct <'info> {
         self.bet_state.no_voters.len()
        } as u64;
 
-       let user_share = self.pool_account.lamports() / total_winners;
+       let user_share =  (self.bet_state.betfees*self.bet_state.total_transactions) as u64 / total_winners;
        
 
         self.claim_account.user = self.signer.key();
