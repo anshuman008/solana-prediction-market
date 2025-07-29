@@ -10,15 +10,14 @@ pub struct  BetState {
  pub bet_price: u64,
  pub crypto_start_price: u64,
  pub crypto_traget_price: u64,
- #[max_len(100)] 
- pub yes_voters: Vec<Pubkey>,
- #[max_len(100)]
- pub no_voters: Vec<Pubkey>,
+ pub yes_voters: u64,
+ pub no_voters: u64,
  pub is_active: bool,
  pub winner_side: i8,
  pub start_duration: u64,
  pub bet_duration: u64, 
  pub total_transactions: u16,
+ pub pool_balance: u64,
  pub state_bump: u8,
  pub pool_bump: u8,
  pub betfees: u16,

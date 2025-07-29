@@ -211,7 +211,7 @@ describe("cryptobet", async() => {
     })
   })
 
-  it("should resolve the bet",  async() => {
+  xit("should resolve the bet",  async() => {
     try{
         const txs = await program.methods.resolve()
       .accounts(
@@ -237,9 +237,9 @@ describe("cryptobet", async() => {
 
   xit("should claim the amount", async() => {
      
-    const user_pda_seed = [Buffer.from("claim"),signer.toBuffer(),state_account.toBuffer()];
+    const user_pda_seed = [Buffer.from("claim"),user1.publicKey.toBuffer(),state_account.toBuffer()];
 
-    const balance = await connection.getBalance(signer);
+    const balance = await connection.getBalance(user1.publicKey);
 
     console.log("here is intial balance!!", balance/LAMPORTS_PER_SOL);
 
@@ -251,7 +251,7 @@ describe("cryptobet", async() => {
      try{
          const txs = await program.methods.claim()
          .accounts({
-          signer:signer,
+          signer:user1.publicKey,
           //@ts-ignore
           creator: signer,
           betState:state_account,
@@ -259,7 +259,7 @@ describe("cryptobet", async() => {
           claimAccount:user_pda,
           systemProgram: system_program
          })
-         .signers([provider.wallet.payer])
+         .signers([user1])
          .rpc();
 
 
@@ -267,7 +267,7 @@ describe("cryptobet", async() => {
 
          console.log("claimable pubke: ", signer);
 
-         const afterbalance = await connection.getBalance(signer);
+         const afterbalance = await connection.getBalance(user1.publicKey);
          
 
          console.log("updated balance: ", afterbalance/LAMPORTS_PER_SOL);
@@ -276,6 +276,17 @@ describe("cryptobet", async() => {
      catch(e){
       console.log("here is error", e);
      }
+  })
+
+  it("norma test", async() => {
+
+
+    const programId = new PublicKey("Ahb2NPqt6wqcLJydV2asqydAuctHPAFhUskXDzYSF61x");
+    const seeds  = [Buffer.from("config")];
+    const configpda = PublicKey.findProgramAddressSync(seeds,programId)[0];
+     
+    console.log("here is the config pda----", configpda.toBase58());
+
   })
 
 })

@@ -53,7 +53,7 @@ impl<'info> CreateStruct<'info> {
 
 
         // for testing
-        let maximum_age: u64 = 3600; // 1 hour
+        let maximum_age: u64 = 300; // 5 minutes
 
 
         // btc/usd
@@ -77,10 +77,11 @@ impl<'info> CreateStruct<'info> {
             bet_price: bet_price,
             crypto_start_price: crypto_start_price,
             crypto_traget_price: crypto_target_price,
-            yes_voters: [].to_vec(),
+            yes_voters:  0,
+            no_voters: 0,
             is_active: true,
             winner_side: -1,
-            no_voters: [].to_vec(),
+            pool_balance:0,
             start_duration: current_time,
             bet_duration: bet_duration,
             total_transactions: 0,
