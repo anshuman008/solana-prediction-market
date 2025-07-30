@@ -32,6 +32,6 @@ pub struct UserClaim {
     pub bet_market: Pubkey,     // Which market this is for
     pub claimed: bool,          // Has user claimed yet?
     pub amount: u64,            // How much they can claim
-    pub claim_timestamp: i64,   // When they claimed
+    pub claim_timestamp: u64,   // When they claimed
     pub bump: u8,               // PDA bump
 }

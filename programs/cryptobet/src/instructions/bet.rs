@@ -55,7 +55,7 @@ impl<'info> BetStruct<'info> {
             bet_market: self.bet_state.key(),
             claimed: false,
             amount: 0,
-            claim_timestamp: 0,
+            claim_timestamp: Clock::get()?.unix_timestamp as u64,
             bump: bump,
         });
 
@@ -148,6 +148,8 @@ impl<'info> BetStruct<'info> {
 }
 
 pub fn bethandlder(ctx: Context<BetStruct>, bet: u8) -> Result<()> {
+
+    ctx.accounts.claiminitialize(ctx.bumps.claim_state, bet);
     ctx.accounts.bet(bet)?;
 
     Ok(())

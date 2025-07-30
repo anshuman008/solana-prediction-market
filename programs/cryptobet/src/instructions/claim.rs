@@ -72,7 +72,7 @@ impl <'info> ClaimStruct <'info> {
        
         self.claim_account.claimed = true;
         self.claim_account.amount = user_share;
-        self.claim_account.claim_timestamp = Clock::get()?.unix_timestamp;
+        self.claim_account.claim_timestamp = Clock::get()?.unix_timestamp as u64;
 
         let signer_seed: &[&[&[u8]]] = &[&[
             b"pool_account",
