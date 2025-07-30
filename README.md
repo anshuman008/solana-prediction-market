@@ -110,6 +110,67 @@ await program.methods
   .rpc();
 ```
 
+## Sample Test Results
+
+Below is a sample output from the test suite, demonstrating the full flow of initializing a market, placing bets, resolving the bet, and claiming rewards:
+
+```
+cryptobet
+  === INITIALIZING MARKET ===
+  State account: AeyAweBb4vxw3N9DfWj5i6BkqRUfej6kqHChazVbGizA
+  ...
+  ✔️ Market initialized successfully!
+  Crypto start price: 117518
+  should initialize the market (1667ms)
+
+  === PLACING NO BETS ===
+  Placing NO bet for user 1: ...
+  NO bet 1 placed. TX: ...
+  ...
+  ✔️ should place multiple NO bets (3279ms)
+
+  === PLACING YES BETS ===
+  Placing YES bet for user 5: ...
+  YES bet 1 placed. TX: ...
+  ...
+  ✔️ should place multiple YES bets (4735ms)
+
+  === BETTING SUMMARY ===
+  Total NO bets: 4
+  Total YES bets: 6
+  Total pool amount: 950000000 lamports
+  Total amount in SOL: 0.95
+  Total transaction : 10
+  ✔️ should display betting summary (152ms)
+
+  === RESOLVING BET ===
+  Waiting 120 seconds before resolving...
+  ✔️ Bet resolved successfully! TX: ...
+  Final status: false
+  Winning side: 0
+  Final price: 119000
+  ✔️ should resolve the bet (121914ms)
+
+  === CLAIMING REWARDS ===
+  Winning side: 0
+  NO side won! Processing claims for NO bettors...
+  Processing claim for winner 1: ...
+  Initial balance: 1.943073439 SOL
+  ✔️ Claim 1 successful! TX: ...
+  Final balance: 2.180573439 SOL
+  Reward claimed: 0.2375 SOL
+  ...
+  ✔️ should allow winning side to claim rewards (5597ms)
+```
+
+This output demonstrates:
+- Market creation and initialization
+- Multiple users placing YES/NO bets
+- Market resolution after the bet duration
+- Winning side users claiming their rewards
+
+For more details, see the full test suite in `tests/cryptobet.ts`.
+
 ## Accounts
 
 - **BetState:** Stores market parameters, pool balance, participants, and result.
